@@ -15,62 +15,89 @@ public class MediumLinqExercises : IMediumLinqExercises
 {
     public int CountVowels(string text)
     {
-        throw new NotImplementedException();
+        var vowelList = new List<char>() {'a', 'e', 'i', 'o', 'u'};
+        return text.Count(letter => vowelList.Contains(letter));
     }
 
     public List<int> GetNumbersInRange(List<int> numbers, int start, int end)
     {
-        throw new NotImplementedException();
+        return numbers
+            .Where((value, index) => index >= start && index <= end)
+            .ToList();
     }
 
     public int GetSumOfSquares(List<int> numbers)
     {
-        throw new NotImplementedException();
+        return (int) numbers
+            .Select(number => Math.Pow(number, 2))
+            .Sum();
     }
 
     public List<string> GetWordsLongerThanN(List<string> words, int n)
     {
-        throw new NotImplementedException();
+        return words
+            .Where(word => word.Length > n)
+            .ToList();
     }
 
     public List<string> GetDistinctWords(string text)
     {
-        throw new NotImplementedException();
+        return text
+            .Split()
+            .Distinct()
+            .ToList();
     }
 
     public bool AnyWordStartsWithA(List<string> words)
     {
-        throw new NotImplementedException();
+        return words
+            .FirstOrDefault(word => word.StartsWith('A')) is null;
     }
 
     public List<int> GetNumbersDivisibleBy3Or5(List<int> numbers)
     {
-        throw new NotImplementedException();
+        return numbers
+            .Where(number => number % 3 == 0 || number % 5 == 0)
+            .ToList();
     }
 
     public List<string> GetWordsSortedByLength(string text)
     {
-        throw new NotImplementedException();
+        return text.Split()
+            .Order()
+            .ToList();
     }
 
     public List<int> GetSquaredNumbersSorted(List<int> numbers)
     {
-        throw new NotImplementedException();
+        return numbers
+            .Select(number => number * number)
+            .Order()
+            .ToList();
     }
 
     public int CountUniqueCharacters(string text)
     {
-        throw new NotImplementedException();
+        return text
+            .ToList()
+            .Distinct()
+            .Count();
     }
 
+    // Return a dictionary of all unique words in a string with their frequencies (split by spaces)
     public Dictionary<string, int> GetWordFrequencies(string text)
     {
-        throw new NotImplementedException();
+        var words = text.Split(" ").ToList();
+        return words
+            .GroupBy(word => word)
+            .ToDictionary(x => x.Key, y => y.Count());
     }
 
     public string GetLongestString(List<string> strings)
     {
-        throw new NotImplementedException();
+        return strings
+            .OrderDescending()
+            .First();
     }
 }
 
