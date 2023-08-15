@@ -17,6 +17,11 @@ public class HardLinqExercises : IHardLinqExercises
 {
     public List<string> GetAnagrams(string word, List<string> words)
     {
+        var letters = word
+            .Split()
+            .Order()
+            .ToList();
+
         throw new NotImplementedException();
     }
 
