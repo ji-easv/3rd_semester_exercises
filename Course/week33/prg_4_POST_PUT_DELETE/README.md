@@ -11,6 +11,17 @@
 - Data annotations
 - The ApiController attribute
 
+**Info**
+- Check marketplace (where you install plugins) for Jetbrains AI Assistant
+- If you have .NET 8 and want a controller layout without cloning my repo, you can run 
+
+```c#
+dotnet new webapi --use-controllers
+```
+
+Apparently, Rider with MVC creates a bunch of other stuff, so I recommend the above command.
+
+
 **Recommended actions:**
 - Finish the "FirstWebAPI" from yesterday
 - Move on to MoreWebAPI
