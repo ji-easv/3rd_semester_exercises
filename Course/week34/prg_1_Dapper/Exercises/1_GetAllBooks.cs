@@ -1,3 +1,4 @@
+using System.Collections;
 using Dapper;
 using FluentAssertions;
 using NUnit.Framework;
@@ -9,7 +10,16 @@ public class GetAllBooksExercise
 {
     public IEnumerable<Book> GetAllBooks()
     {
-        throw new NotImplementedException();
+        var sql = @$"SELECT 
+        book_id AS {nameof(Book.BookId)},
+        title  AS {nameof(Book.Title)},
+        publisher AS {nameof(Book.Publisher)},
+        cover_img_url AS {nameof(Book.CoverImgUrl)}
+        FROM library.books;";
+        using (var conn = Helper.DataSource.OpenConnection())
+        {
+            return conn.Query<Book>(sql);
+        }
     }
 
     [Test]

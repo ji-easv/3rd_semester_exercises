@@ -14,7 +14,12 @@ public class DoesBookWithTileExistExercise
     /// <exception cref="NotImplementedException"></exception>
     public bool DoesBookWithTitleExist(string title)
     {
-        throw new NotImplementedException();
+        var sql = @$"SELECT COUNT (*) FROM library.books WHERE title = @title";
+        
+        using (var conn = Helper.DataSource.OpenConnection())
+        {
+            return conn.ExecuteScalar<int>(sql, new { title }) == 1;
+        }
     }
 
     [Test]

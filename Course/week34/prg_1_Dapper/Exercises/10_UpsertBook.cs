@@ -1,3 +1,4 @@
+using Bogus.DataSets;
 using Dapper;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -9,7 +10,26 @@ public class UpsertBookExercise
 {
     public Book UpsertAndReturnBook(int bookId, string title, string publisher, string coverImgUrl)
     {
-        throw new NotImplementedException();
+        var sql = @$"
+        INSERT INTO library.books (book_id, title, publisher, cover_img_url)
+        VALUES (@bookId, @title, @publisher, @coverImgUrl)
+        ON CONFLICT (book_id)
+        DO UPDATE SET 
+            book_id = @bookId,
+            title = @title,
+            publisher = @publisher,
+            cover_img_url = @coverImgUrl
+        RETURNING 
+            book_id AS {nameof(Book.BookId)},
+            title AS {nameof(Book.Title)},
+            publisher AS {nameof(Book.Publisher)},
+            cover_img_url AS {nameof(Book.CoverImgUrl)};";
+        
+        using (var conn = Helper.DataSource.OpenConnection())
+        {
+            // Pass the parameter value using the 'param' parameter of the QueryFirst method
+            return conn.QueryFirst<Book>(sql, new {bookId, title, publisher, coverImgUrl});
+        }
     }
 
     [Test]

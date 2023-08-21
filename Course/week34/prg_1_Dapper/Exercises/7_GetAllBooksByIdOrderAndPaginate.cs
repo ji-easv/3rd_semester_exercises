@@ -1,3 +1,4 @@
+using Bogus.DataSets;
 using Dapper;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -19,7 +20,20 @@ public class GetAllBooksByIdOrderAndPaginateExercise
     /// <exception cref="NotImplementedException"></exception>
     public IEnumerable<Book> GetAllBooksOrderByAndPaginate(string orderBy, int pageSize, int startAt)
     {
-        throw new NotImplementedException();
+        var sql = @$"SELECT 
+    book_id AS {nameof(Book.BookId)}, 
+    title AS {nameof(Book.Title)}, 
+    publisher AS {nameof(Book.Publisher)}, 
+    cover_img_url AS {nameof(Book.CoverImgUrl)}    
+    FROM library.books
+    ORDER BY {orderBy}
+    LIMIT {pageSize}
+    OFFSET {startAt};";
+        
+        using (var conn = Helper.DataSource.OpenConnection())
+        {
+            return conn.Query<Book>(sql);
+        }
     }
     [Test]
     public void TestGetAllBooksOrderByAndPaginate()

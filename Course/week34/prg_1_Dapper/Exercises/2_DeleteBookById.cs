@@ -16,7 +16,11 @@ public class DeleteBookByIdExercise
     /// <exception cref="NotImplementedException"></exception>
     public bool DeleteBookById(int bookId)
     {
-        throw new NotImplementedException();
+        var sql = $@"DELETE FROM library.books WHERE book_id = @bookId;";
+        using (var conn = Helper.DataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new { bookId }) == 1;
+        }
     }
     
     [Test]
@@ -62,6 +66,4 @@ DELETE FROM library.books WHERE book_id = @bookId;
             return conn.Execute(sql, new { bookId }) == 1;
         }
     }
-
-
 }

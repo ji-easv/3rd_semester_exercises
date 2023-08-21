@@ -8,7 +8,24 @@ public class GetFullBookDetailsExercise
 {
     public FullBookDetails GetFullBookDetails(int bookid)
     {
-        throw new NotImplementedException();
+        var sql = @$"
+        SELECT 
+            book_id AS {nameof(Book.BookId)},
+            title  AS {nameof(Book.Title)},
+            array_agg(library.authors.name) authors, 
+            publisher AS {nameof(Book.Publisher)},
+            cover_img_url AS {nameof(Book.CoverImgUrl)} 
+        FROM library.books 
+        INNER JOIN library.author_wrote_book_items USING (book_id) 
+        INNER JOIN library.authors USING (author_id) 
+        WHERE library.books.book_id = @bookid
+        GROUP BY book_id, title, publisher, cover_img_url;";
+
+        using (var conn = Helper.DataSource.OpenConnection())
+        {
+            // Pass the parameter value using the 'param' parameter of the QueryFirst method
+            return conn.QueryFirst<FullBookDetails>(sql, new { bookid });
+        }
     }
 
     [Test]
