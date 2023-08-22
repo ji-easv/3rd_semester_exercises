@@ -11,10 +11,10 @@ public class GetAllBooksExercise
     public IEnumerable<Book> GetAllBooks()
     {
         var sql = @$"SELECT 
-        book_id AS {nameof(Book.BookId)},
-        title  AS {nameof(Book.Title)},
-        publisher AS {nameof(Book.Publisher)},
-        cover_img_url AS {nameof(Book.CoverImgUrl)}
+            book_id AS {nameof(Book.BookId)},
+            title  AS {nameof(Book.Title)},
+            publisher AS {nameof(Book.Publisher)},
+            cover_img_url AS {nameof(Book.CoverImgUrl)}
         FROM library.books;";
         using (var conn = Helper.DataSource.OpenConnection())
         {
